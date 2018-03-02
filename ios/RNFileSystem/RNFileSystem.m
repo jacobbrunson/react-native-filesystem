@@ -19,16 +19,20 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   NSFileManager *fileManager = [NSFileManager defaultManager];
   if ([storage isEqual:STORAGE_BACKED_UP]) {
     NSURL *docsDir = [fileManager URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-    return [docsDir URLByAppendingPathComponent:@"RNFS-BackedUp"];
+	//return [docsDir URLByAppendingPathComponent:@"RNFS-BackedUp"];
+	return docsDir;
   } else if ([storage isEqual:STORAGE_IMPORTANT]) {
     NSURL *cachesDir = [fileManager URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-    return [cachesDir URLByAppendingPathComponent:@"RNFS-Important"];
+    //return [cachesDir URLByAppendingPathComponent:@"RNFS-Important"];
+	return docsDir;
   } else if ([storage isEqual:STORAGE_AUXILIARY]) {
     NSURL *cachesDir = [fileManager URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-    return [cachesDir URLByAppendingPathComponent:@"RNFS-Auxiliary"];
+    //return [cachesDir URLByAppendingPathComponent:@"RNFS-Auxiliary"];
+	return docsDir;
   } else if ([storage isEqual:STORAGE_TEMPORARY]) {
     NSURL *tempDir = [NSURL fileURLWithPath:NSTemporaryDirectory()];
-    return [tempDir URLByAppendingPathComponent:@"RNFS-Temporary"];
+    //return [tempDir URLByAppendingPathComponent:@"RNFS-Temporary"];
+	return docsDir;
   } else {
     [NSException raise:@"InvalidArgument" format:[NSString stringWithFormat:@"Storage type not recognized: %@", storage]];
     return nil;
@@ -39,7 +43,7 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSString *directory = [[path URLByDeletingLastPathComponent] path];
   [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
-  
+
 }
 
 + (void)writeToFile:(NSString*)relativePath content:(NSString*)content inStorage:(NSString*)storage {
@@ -101,7 +105,7 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
 {
   NSURL* URL= [NSURL fileURLWithPath: filePathString];
   assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
-  
+
   NSError *error = nil;
   BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
                                 forKey: NSURLIsExcludedFromBackupKey error: &error];
