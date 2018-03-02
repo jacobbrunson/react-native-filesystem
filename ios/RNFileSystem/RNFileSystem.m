@@ -24,15 +24,15 @@ NSString *const STORAGE_TEMPORARY = @"TEMPORARY";
   } else if ([storage isEqual:STORAGE_IMPORTANT]) {
     NSURL *cachesDir = [fileManager URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
     //return [cachesDir URLByAppendingPathComponent:@"RNFS-Important"];
-	return docsDir;
+	return cachesDir;
   } else if ([storage isEqual:STORAGE_AUXILIARY]) {
     NSURL *cachesDir = [fileManager URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
     //return [cachesDir URLByAppendingPathComponent:@"RNFS-Auxiliary"];
-	return docsDir;
+	return cachesDir;
   } else if ([storage isEqual:STORAGE_TEMPORARY]) {
     NSURL *tempDir = [NSURL fileURLWithPath:NSTemporaryDirectory()];
     //return [tempDir URLByAppendingPathComponent:@"RNFS-Temporary"];
-	return docsDir;
+	return tempDir;
   } else {
     [NSException raise:@"InvalidArgument" format:[NSString stringWithFormat:@"Storage type not recognized: %@", storage]];
     return nil;
